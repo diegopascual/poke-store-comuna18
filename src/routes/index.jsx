@@ -1,26 +1,33 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { getPokemonList as getPokemonListService } from "@/services/pokemon";
+import { PokemonList } from "@/components";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [count, setCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["pokemonList", page],
+    queryFn: () => getPokemonListService({ page }),
+    placeholderData: keepPreviousData,
+  });
+
+  if (isPending) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
+
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Pokemon Store</h1>
+      <PokemonList pokemonList={data} />
     </>
   );
 }
