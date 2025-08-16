@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { PokemonCard } from ".";
 
 export const PokemonList = ({ pokemonList = [] }) => {
@@ -6,10 +7,16 @@ export const PokemonList = ({ pokemonList = [] }) => {
   }
 
   return (
-    <div>
-      {pokemonList.map((pokemon) => (
-        <PokemonCard key={pokemon.id} pokemon={pokemon} />
-      ))}
-    </div>
+    <section className="mx-auto max-w-xs space-y-6">
+      {pokemonList.pages.map((page, index) => {
+        return (
+          <Fragment key={index}>
+            {page.map((pokemon) => (
+              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            ))}
+          </Fragment>
+        );
+      })}
+    </section>
   );
 };
