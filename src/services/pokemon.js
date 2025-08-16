@@ -3,13 +3,16 @@ import { fetchDataFromUrl } from "@/api/generic";
 import { saveToStorage, loadFromStorage } from "@/utils/storage";
 import { mapApiResponseToPokemon } from "./helpers";
 
+const getPokemonSpecie = async (pokemon) => {
+  const pokemonSpecieResponse = fetchDataFromUrl(pokemon.species.url);
+  return pokemonSpecieResponse;
+};
+
 export const getPokemonList = async ({ limit = 20, page = 1 }) => {
   const storageKey = `pokemon-list-page-${page}`;
   const cachedData = loadFromStorage(storageKey);
-  if (cachedData) {
-    console.log("Serving from localStorage cache ✨");
-    return cachedData;
-  }
+
+  if (cachedData) return cachedData;
 
   const pokemonListResponse = await getPokemonListApi({
     limit,
@@ -17,11 +20,21 @@ export const getPokemonList = async ({ limit = 20, page = 1 }) => {
   });
 
   const pokemonPromises = pokemonListResponse.results.map((pokemon) =>
-    fetchDataFromUrl(pokemon.url)
+    fetchDataFromUrl(pokemon.url),
   );
 
   const pokemonResponses = await Promise.all(pokemonPromises);
-  const pokemonResults = pokemonResponses.map(mapApiResponseToPokemon);
+  const pokemonSpeciePromises = pokemonResponses.map(getPokemonSpecie);
+  const pokemonSpeciesResponses = await Promise.all(pokemonSpeciePromises);
+  const pokemonWithSpecie = pokemonResponses.map((pokemon) => {
+    const specie = pokemonSpeciesResponses.find(
+      (specie) => specie.name === pokemon.species.name,
+    );
+
+    return { pokemon, pokemonSpecie: specie };
+  });
+
+  const pokemonResults = pokemonWithSpecie.map(mapApiResponseToPokemon);
 
   saveToStorage(storageKey, pokemonResults);
 

@@ -26,7 +26,9 @@ function RouteComponent() {
 
   return (
     <>
-      <h1>Pokemon Store</h1>
+      <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
+        Pokemon Store
+      </h1>
       <PokemonList pokemonList={data} />
     </>
   );

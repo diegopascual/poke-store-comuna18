@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import tailwindcss from "@tailwindcss/vite";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 
@@ -15,6 +16,7 @@ export default defineConfig({
       autoCodeSplitting: true,
     }),
     react(),
+    tailwindcss(),
   ],
   resolve: {
     alias: { "@": resolve(__dirname, "./src") },
