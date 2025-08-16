@@ -7,7 +7,7 @@ export const PokemonList = ({ pokemonList = [] }) => {
   }
 
   return (
-    <section className="mx-auto max-w-xs space-y-6">
+    <section className="grid-cols-2 gap-6 space-y-6 px-8 md:m-0 md:grid md:space-y-0 xl:grid-cols-4">
       {pokemonList.pages.map((page, index) => {
         return (
           <Fragment key={index}>

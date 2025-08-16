@@ -43,8 +43,8 @@ function RouteComponent() {
   }
 
   return (
-    <main className="py-6">
-      <h1 className="mb-6 scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
+    <main className="mx-auto max-w-7xl py-6">
+      <h1 className="mb-8 scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
         Pokemon Store
       </h1>
       <PokemonList pokemonList={data} />

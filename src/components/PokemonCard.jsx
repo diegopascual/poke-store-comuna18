@@ -5,7 +5,7 @@ import { POKEMON_TYPES_COLORS } from "@/constants/pokemon-types-colors";
 
 export const PokemonCard = ({ pokemon }) => {
   return (
-    <Card className="w-full max-w-xs">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>
           <p className="flex justify-between">
