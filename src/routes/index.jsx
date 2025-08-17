@@ -34,24 +34,30 @@ function RouteComponent() {
     },
   });
 
-  useEffect(() => {
-    if (entry?.isIntersecting) {
-      fetchNextPage();
-    }
-  }, [entry, fetchNextPage]);
-
   // Pokemon Search
   const [searchText, setSearchText] = useState("");
+  const isInSearchMode = searchText.length > 0;
+
   const {
     isPending: isSearching,
     isError: pokemonNotFound,
     data: pokemon,
   } = useQuery({
-    queryKey: ["pokemon", searchText],
+    queryKey: ["pokemon", searchText, data?.pages.length],
     queryFn: () =>
-      getPokemonService({ name: searchText, pages: data.pages.length }),
-    enabled: searchText.length > 0,
+      getPokemonService({ name: searchText, pages: data?.pages.length }),
+    enabled: isInSearchMode,
   });
+
+  useEffect(() => {
+    if (!entry?.isIntersecting || isInSearchMode) {
+      return;
+    }
+
+    if (entry?.isIntersecting) {
+      fetchNextPage();
+    }
+  }, [entry, fetchNextPage, isInSearchMode]);
 
   return (
     <main className="mx-auto max-w-7xl p-8 xl:px-0">
@@ -61,7 +67,7 @@ function RouteComponent() {
       <SearchBar onSearch={setSearchText} />
       {isPending && <span>Loading...</span>}
       {isError && <span>Error: {error.message}</span>}
-      {isSearching && <p>Searching pokemon...</p>}
+      {isSearching && isInSearchMode && <p>Searching pokemon...</p>}
       <section className="grid-cols-2 gap-6 space-y-6 md:m-0 md:grid md:space-y-0 xl:grid-cols-4">
         {pokemonNotFound && <p>No results</p>}
         {!isSearching > 0 && pokemon ? (

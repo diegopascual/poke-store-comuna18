@@ -6,6 +6,15 @@ export const SearchBar = ({ onSearch }) => {
   const [searchText, setSearchText] = useState("");
   const textTrimmed = searchText.trim();
 
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSearchText(value);
+
+    if (value.length === 0) {
+      onSearch("");
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     onSearch(textTrimmed);
@@ -24,7 +33,7 @@ export const SearchBar = ({ onSearch }) => {
             type="text"
             placeholder="Search pokemon..."
             value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={handleChange}
           />
           {!!textTrimmed && (
             <Button type="button" onClick={handleClear}>

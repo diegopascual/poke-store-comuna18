@@ -23,13 +23,12 @@ const searchFromLocalStorage = (searchName, storage) => {
 
 export const getPokemon = async ({ name, pages }) => {
   const cleanedName = name.trim().toLowerCase();
-  console.log(name, pages);
+  console.log(pages);
 
   for (let i = 1; i <= pages; i++) {
     const storageKey = `pokemon-list-page-${i}`;
     const storage = loadFromStorage(storageKey);
     const cachedPokemon = searchFromLocalStorage(cleanedName, storage);
-    console.log(storage, cachedPokemon);
     if (cachedPokemon) return cachedPokemon;
   }
 
