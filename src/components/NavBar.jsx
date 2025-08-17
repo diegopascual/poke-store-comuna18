@@ -1,7 +1,12 @@
+import { useContext } from "react";
 import { Link } from "@tanstack/react-router";
 import { ShoppingCart } from "lucide-react";
+import { BalanceContext } from "@/contexts/BalanceContext";
+import { formatPrice } from "@/utils/helpers";
 
 export const NavBar = () => {
+  const { balance } = useContext(BalanceContext);
+
   return (
     <header className="fixed w-full space-y-2 bg-primary px-8 py-2 text-secondary">
       <nav>
@@ -27,7 +32,13 @@ export const NavBar = () => {
         </ul>
       </nav>
       <div className="flex justify-end">
-        <p className="text-xs">Balance: </p>
+        <Link className="text-xs hover:underline" to="/funds">
+          Balance:{" "}
+          {formatPrice({
+            price: balance.balance,
+            currency: balance.currency,
+          })}
+        </Link>
       </div>
     </header>
   );
