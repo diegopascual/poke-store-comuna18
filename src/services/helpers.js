@@ -2,12 +2,15 @@ import { capitalize, formatNumberToFourDigits } from "@/utils/helpers";
 
 const currencies = ["MXN", "USD", "EUR", "JPY", "GBP"];
 
-export const mapApiResponseToPokemon = ({ pokemon, pokemonSpecie }) => {
-  const { id, name, sprites, types } = pokemon;
+export const mapApiResponseToPokemon = ({
+  pokemonResponse,
+  pokemonSpecieResponse,
+}) => {
+  const { id, name, sprites, types } = pokemonResponse;
   const currency = currencies[Math.floor(Math.random() * currencies.length)];
   const price = (Math.random() * 90 + 10).toFixed(2);
 
-  const descriptionEntry = pokemonSpecie.flavor_text_entries.find(
+  const descriptionEntry = pokemonSpecieResponse.flavor_text_entries.find(
     (entry) => entry.language.name === "en",
   );
 
