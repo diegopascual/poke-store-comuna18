@@ -23,7 +23,6 @@ const searchFromLocalStorage = (searchName, storage) => {
 
 export const getPokemon = async ({ name, pages }) => {
   const cleanedName = name.trim().toLowerCase();
-  console.log(pages);
 
   for (let i = 1; i <= pages; i++) {
     const storageKey = `pokemon-list-page-${i}`;
