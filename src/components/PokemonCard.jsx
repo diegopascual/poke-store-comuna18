@@ -1,9 +1,23 @@
+import { useContext } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Plus, Trash2 } from "lucide-react";
+import { CartContext } from "@/contexts";
 import { formatPrice } from "@/utils/helpers";
 import { POKEMON_TYPES_COLORS } from "@/constants/pokemon";
 
 export const PokemonCard = ({ pokemon }) => {
+  const { addToCart, removeFromCart } = useContext(CartContext);
+
+  const handleClick = () => {
+    if (pokemon.isInCart) {
+      removeFromCart(pokemon.id);
+    } else {
+      addToCart(pokemon);
+    }
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -15,14 +29,26 @@ export const PokemonCard = ({ pokemon }) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <img
-          src={pokemon.officialImageUrl}
-          alt={pokemon.name}
-          className="m-auto w-3xs"
-        />
+        <div className="relative">
+          <Button
+            size="icon"
+            className="absolute top-0 right-0 size-8 hover:cursor-pointer"
+            onClick={handleClick}
+          >
+            {pokemon.isInCart ? <Trash2 /> : <Plus />}
+          </Button>
+          <img
+            src={pokemon.officialImageUrl}
+            alt={pokemon.name}
+            className="m-auto w-3xs"
+          />
+        </div>
         <div className="mt-2 flex items-center justify-between">
           <p className="text-lg font-semibold">
-            {formatPrice({ price: pokemon.price, currency: pokemon.currency })}
+            {formatPrice({
+              price: pokemon.price.value,
+              currency: pokemon.price.currency,
+            })}
           </p>
           <div className="flex gap-2">
             {pokemon.types.map((type) => (

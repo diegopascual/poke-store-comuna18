@@ -1,6 +1,12 @@
-import { capitalize, formatNumberToFourDigits } from "@/utils/helpers";
+import {
+  capitalize,
+  formatNumberToFourDigits,
+  getRandomPrice,
+} from "@/utils/helpers";
 
 const currencies = ["MXN", "USD", "EUR", "JPY", "GBP"];
+const MAX_PRICE = 100;
+const MIN_PRICE = 10;
 
 export const mapApiResponseToPokemon = ({
   pokemonResponse,
@@ -8,7 +14,7 @@ export const mapApiResponseToPokemon = ({
 }) => {
   const { id, name, sprites, types } = pokemonResponse;
   const currency = currencies[Math.floor(Math.random() * currencies.length)];
-  const price = (Math.random() * 90 + 10).toFixed(2);
+  const price = getRandomPrice(MIN_PRICE, MAX_PRICE).toFixed(2);
 
   const descriptionEntry = pokemonSpecieResponse.flavor_text_entries.find(
     (entry) => entry.language.name === "en",
@@ -26,7 +32,6 @@ export const mapApiResponseToPokemon = ({
     defaultImageUrl: sprites.front_default,
     officialImageUrl: sprites.other["official-artwork"].front_default,
     description,
-    price,
-    currency,
+    price: { value: price, currency },
   };
 };

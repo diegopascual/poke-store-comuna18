@@ -60,7 +60,7 @@ function RouteComponent() {
   }, [entry, fetchNextPage, isInSearchMode]);
 
   return (
-    <main className="mx-auto max-w-7xl p-8 xl:px-0">
+    <main className="mx-auto max-w-7xl p-8 pt-25 xl:px-0">
       <h1 className="mb-8 scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
         Pokemon Store
       </h1>
