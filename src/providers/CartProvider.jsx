@@ -16,8 +16,27 @@ export const CartProvider = ({ children }) => {
     saveToStorage(CART_KEY, cart);
   }, [cart]);
 
+  const addToCart = (pokemon) => {
+    setCart((prevCart) => [...prevCart, pokemon]);
+  };
+
+  const removeFromCart = (pokemonId) => {
+    setCart((prevCart) =>
+      prevCart.filter((pokemon) => pokemon.id !== pokemonId),
+    );
+  };
+
+  const cartIds = cart.map((pokemon) => pokemon.id);
+
   return (
-    <CartContext.Provider value={[cart, setCart]}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        cartIds,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

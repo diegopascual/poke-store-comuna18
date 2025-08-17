@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,16 +8,13 @@ import { formatPrice } from "@/utils/helpers";
 import { POKEMON_TYPES_COLORS } from "@/constants/pokemon";
 
 export const PokemonCard = ({ pokemon }) => {
-  const [cart, setCart] = useContext(CartContext);
-  const [isAddedToCart, setIsAddedToCart] = useState(false);
+  const { addToCart, removeFromCart } = useContext(CartContext);
 
   const handleClick = () => {
-    if (isAddedToCart) {
-      setCart(cart.filter((poke) => poke.name !== pokemon.name));
-      setIsAddedToCart(false);
+    if (pokemon.isInCart) {
+      removeFromCart(pokemon.id);
     } else {
-      setCart([...cart, pokemon]);
-      setIsAddedToCart(true);
+      addToCart(pokemon);
     }
   };
 
@@ -38,7 +35,7 @@ export const PokemonCard = ({ pokemon }) => {
             className="absolute top-0 right-0 size-8 hover:cursor-pointer"
             onClick={handleClick}
           >
-            {isAddedToCart ? <Trash2 /> : <Plus />}
+            {pokemon.isInCart ? <Trash2 /> : <Plus />}
           </Button>
           <img
             src={pokemon.officialImageUrl}
@@ -48,7 +45,10 @@ export const PokemonCard = ({ pokemon }) => {
         </div>
         <div className="mt-2 flex items-center justify-between">
           <p className="text-lg font-semibold">
-            {formatPrice({ price: pokemon.price, currency: pokemon.currency })}
+            {formatPrice({
+              price: pokemon.price.value,
+              currency: pokemon.price.currency,
+            })}
           </p>
           <div className="flex gap-2">
             {pokemon.types.map((type) => (

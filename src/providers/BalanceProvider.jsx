@@ -13,7 +13,7 @@ export const BalanceProvider = ({ children }) => {
       const MIN_PRICE = 10000;
 
       return {
-        balance: Math.floor(getRandomPrice(MIN_PRICE, MAX_PRICE)),
+        funds: Math.floor(getRandomPrice(MIN_PRICE, MAX_PRICE)),
         currency: "MXN",
       };
     }

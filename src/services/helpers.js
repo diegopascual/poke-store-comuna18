@@ -32,7 +32,6 @@ export const mapApiResponseToPokemon = ({
     defaultImageUrl: sprites.front_default,
     officialImageUrl: sprites.other["official-artwork"].front_default,
     description,
-    price,
-    currency,
+    price: { value: price, currency },
   };
 };
