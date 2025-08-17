@@ -1,8 +1,11 @@
-import { useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getPokemonList as getPokemonListService } from "@/services/pokemon";
-import { PokemonList } from "@/components";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
+import {
+  getPokemonList as getPokemonListService,
+  getPokemon as getPokemonService,
+} from "@/services/pokemon";
+import { PokemonList, SearchBar } from "@/components";
 import { useIntersectionObserver } from "@uidotdev/usehooks";
 
 export const Route = createFileRoute("/")({
@@ -10,6 +13,7 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
+  // Pokemon List
   const [ref, entry] = useIntersectionObserver({
     threshold: 0,
     root: null,
@@ -24,6 +28,8 @@ function RouteComponent() {
       if (lastPage.length === 0) {
         return undefined;
       }
+
+      // setPage(lastPageParam + 1);
       return lastPageParam + 1;
     },
   });
@@ -34,20 +40,40 @@ function RouteComponent() {
     }
   }, [entry, fetchNextPage]);
 
-  if (isPending) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
+  // Pokemon Search
+  const [searchText, setSearchText] = useState("");
+  const {
+    isPending: isSearching,
+    isError: pokemonNotFound,
+    data: pokemon,
+  } = useQuery({
+    queryKey: ["pokemon", searchText],
+    queryFn: () =>
+      getPokemonService({ name: searchText, pages: data.pages.length }),
+    enabled: searchText.length > 0,
+  });
 
   return (
-    <main className="mx-auto max-w-7xl py-6">
+    <main className="mx-auto max-w-7xl p-8 xl:px-0">
       <h1 className="mb-8 scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
         Pokemon Store
       </h1>
-      <PokemonList pokemonList={data} />
+      <SearchBar onSearch={setSearchText} />
+      {isPending && <span>Loading...</span>}
+      {isError && <span>Error: {error.message}</span>}
+      {isSearching && <p>Searching pokemon...</p>}
+      <section className="grid-cols-2 gap-6 space-y-6 md:m-0 md:grid md:space-y-0 xl:grid-cols-4">
+        {pokemonNotFound && <p>No results</p>}
+        {!isSearching > 0 && pokemon ? (
+          <PokemonList pokemonList={[pokemon]} />
+        ) : (
+          data?.pages.map((page, index) => (
+            <Fragment key={index}>
+              <PokemonList pokemonList={page} />
+            </Fragment>
+          ))
+        )}
+      </section>
       <div id="visor" ref={ref}></div>
     </main>
   );

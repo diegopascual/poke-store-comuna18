@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatPrice } from "@/utils/helpers";
-import { POKEMON_TYPES_COLORS } from "@/constants/pokemon-types-colors";
+import { POKEMON_TYPES_COLORS } from "@/constants/pokemon";
 
 export const PokemonCard = ({ pokemon }) => {
   return (
