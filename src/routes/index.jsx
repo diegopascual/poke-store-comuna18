@@ -80,7 +80,7 @@ function RouteComponent() {
           ))
         )}
       </section>
-      <div id="visor" ref={ref}></div>
+      {!isInSearchMode && <div id="visor" ref={ref}></div>}
     </main>
   );
 }
