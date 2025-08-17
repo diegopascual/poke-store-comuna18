@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BalanceContext } from "@/contexts/BalanceContext";
+import { BalanceContext } from "@/contexts";
 import { loadFromStorage, saveToStorage } from "@/utils/storage";
 import { getRandomPrice } from "@/utils/helpers";
 
@@ -26,7 +26,7 @@ export const BalanceProvider = ({ children }) => {
   }, [balance]);
 
   return (
-    <BalanceContext.Provider value={{ balance, setBalance }}>
+    <BalanceContext.Provider value={[balance, setBalance]}>
       {children}
     </BalanceContext.Provider>
   );
