@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PurchasesRouteImport } from './routes/purchases'
 import { Route as FundsRouteImport } from './routes/funds'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as IndexRouteImport } from './routes/index'
 
+const PurchasesRoute = PurchasesRouteImport.update({
+  id: '/purchases',
+  path: '/purchases',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FundsRoute = FundsRouteImport.update({
   id: '/funds',
   path: '/funds',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/funds': typeof FundsRoute
+  '/purchases': typeof PurchasesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/funds': typeof FundsRoute
+  '/purchases': typeof PurchasesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/funds': typeof FundsRoute
+  '/purchases': typeof PurchasesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/checkout' | '/funds'
+  fullPaths: '/' | '/checkout' | '/funds' | '/purchases'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/checkout' | '/funds'
-  id: '__root__' | '/' | '/checkout' | '/funds'
+  to: '/' | '/checkout' | '/funds' | '/purchases'
+  id: '__root__' | '/' | '/checkout' | '/funds' | '/purchases'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CheckoutRoute: typeof CheckoutRoute
   FundsRoute: typeof FundsRoute
+  PurchasesRoute: typeof PurchasesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/purchases': {
+      id: '/purchases'
+      path: '/purchases'
+      fullPath: '/purchases'
+      preLoaderRoute: typeof PurchasesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/funds': {
       id: '/funds'
       path: '/funds'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CheckoutRoute: CheckoutRoute,
   FundsRoute: FundsRoute,
+  PurchasesRoute: PurchasesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

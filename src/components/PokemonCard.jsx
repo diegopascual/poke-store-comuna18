@@ -30,13 +30,18 @@ export const PokemonCard = ({ pokemon }) => {
       </CardHeader>
       <CardContent>
         <div className="relative">
-          <Button
-            size="icon"
-            className="absolute top-0 right-0 size-8 hover:cursor-pointer"
-            onClick={handleClick}
-          >
-            {pokemon.isInCart ? <Trash2 /> : <Plus />}
-          </Button>
+          {pokemon.isPurchased ? (
+            <Badge className="absolute top-0 right-0">Purchased</Badge>
+          ) : (
+            <Button
+              size="icon"
+              className="absolute top-0 right-0 size-8 hover:cursor-pointer"
+              onClick={handleClick}
+            >
+              {pokemon.isInCart ? <Trash2 /> : <Plus />}
+            </Button>
+          )}
+
           <img
             src={pokemon.officialImageUrl}
             alt={pokemon.name}

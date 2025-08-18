@@ -15,10 +15,6 @@ export const useConversion = ({ balance, cart }) => {
     })),
   });
 
-  if (cart.length === 0) {
-    return <p className="text-center">No pokemon added to cart</p>;
-  }
-
   const cartWithConversion = cart.map((pokemon, index) => {
     const conversionResult = conversionQueries[index];
     let convertedPrice = null;

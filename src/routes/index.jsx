@@ -1,8 +1,8 @@
 import { useState, Fragment } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { PokemonList, SearchBar } from "@/components";
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import { useSearchPokemon } from "@/hooks/useSearchPokemon";
+import { useInfiniteScroll } from "@/hooks";
+import { useSearchPokemon } from "@/hooks";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,

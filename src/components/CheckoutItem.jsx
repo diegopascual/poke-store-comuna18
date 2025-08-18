@@ -1,10 +1,27 @@
+import { useContext } from "react";
+import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { CartContext } from "@/contexts";
 import { formatPrice } from "@/utils/helpers";
 
 export const CheckoutItem = ({ pokemon }) => {
+  const { removeFromCart } = useContext(CartContext);
+
   return (
     <TableRow>
-      <TableCell className="font-medium">
+      <TableCell>
+        <Button
+          size="icon"
+          className="size-8 hover:cursor-pointer"
+          onClick={() => {
+            removeFromCart(pokemon.id);
+          }}
+        >
+          <Trash2 />
+        </Button>
+      </TableCell>
+      <TableCell>
         <img src={pokemon.defaultImageUrl} alt={pokemon.name} />
       </TableCell>
       <TableCell>{pokemon.name}</TableCell>

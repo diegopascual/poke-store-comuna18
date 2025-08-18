@@ -33,6 +33,7 @@ export const CartProvider = ({ children }) => {
       value={{
         cart,
         cartIds,
+        setCart,
         addToCart,
         removeFromCart,
       }}
