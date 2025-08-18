@@ -1,5 +1,5 @@
 export const POKEMON_TYPES_COLORS = Object.freeze({
-  Normal: "bg-normal text-secondary",
+  Normal: "bg-normal text-primary",
   Fighting: "bg-fighting text-primary",
   Flying: "bg-flying text-primary",
   Poison: "bg-poison text-secondary",

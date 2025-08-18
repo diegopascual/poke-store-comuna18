@@ -14,7 +14,9 @@ function RootComponent() {
       <BalanceProvider>
         <CartProvider>
           <NavBar />
-          <Outlet />
+          <main className="mx-auto max-w-7xl p-8 pt-25 xl:px-0">
+            <Outlet />
+          </main>
         </CartProvider>
       </BalanceProvider>
       <ReactQueryDevtools initialIsOpen={false} />

@@ -1,8 +1,8 @@
+import { fetchDataFromUrl } from "@/api/generic";
 import {
   getPokemonList as getPokemonListApi,
   getPokemonByIdOrName,
 } from "@/api/pokemon";
-import { fetchDataFromUrl } from "@/api/generic";
 import { saveToStorage, loadFromStorage } from "@/utils/storage";
 import { mapApiResponseToPokemon } from "./helpers";
 

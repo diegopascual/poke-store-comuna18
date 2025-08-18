@@ -1,12 +1,12 @@
 import { useState, useEffect, Fragment } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
+import { useIntersectionObserver } from "@uidotdev/usehooks";
+import { PokemonList, SearchBar } from "@/components";
 import {
   getPokemonList as getPokemonListService,
   getPokemon as getPokemonService,
 } from "@/services/pokemon";
-import { PokemonList, SearchBar } from "@/components";
-import { useIntersectionObserver } from "@uidotdev/usehooks";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -60,7 +60,7 @@ function RouteComponent() {
   }, [entry, fetchNextPage, isInSearchMode]);
 
   return (
-    <main className="mx-auto max-w-7xl p-8 pt-25 xl:px-0">
+    <>
       <h1 className="mb-8 scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance">
         Pokemon Store
       </h1>
@@ -81,6 +81,6 @@ function RouteComponent() {
         )}
       </section>
       {!isInSearchMode && <div id="visor" ref={ref}></div>}
-    </main>
+    </>
   );
 }
