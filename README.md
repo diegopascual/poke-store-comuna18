@@ -84,7 +84,5 @@ Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para má
 
 ## 👨‍💻 Autor
 
-Desarrollado con ❤️ por **(TU NOMBRE)**
-
 - **GitHub:** [@diegopascual](https://github.com/diegopascual)
 - **LinkedIn:** [Diego Pascual](https://www.linkedin.com/in/diegopascualh/)
