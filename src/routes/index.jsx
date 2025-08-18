@@ -1,63 +1,26 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, Fragment } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
-import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { PokemonList, SearchBar } from "@/components";
-import {
-  getPokemonList as getPokemonListService,
-  getPokemon as getPokemonService,
-} from "@/services/pokemon";
+import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { useSearchPokemon } from "@/hooks/useSearchPokemon";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  // Pokemon List
-  const [ref, entry] = useIntersectionObserver({
-    threshold: 0,
-    root: null,
-    rootMargin: "100px",
-  });
-
-  const { isPending, isError, data, error, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["pokemonList"],
-    queryFn: ({ pageParam }) => getPokemonListService({ page: pageParam }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      if (lastPage.length === 0) {
-        return undefined;
-      }
-
-      // setPage(lastPageParam + 1);
-      return lastPageParam + 1;
-    },
-  });
-
   // Pokemon Search
   const [searchText, setSearchText] = useState("");
   const isInSearchMode = searchText.length > 0;
+  const { isPending, isError, data, error, ref } = useInfiniteScroll({
+    isInSearchMode,
+  });
 
   const {
     isPending: isSearching,
     isError: pokemonNotFound,
     data: pokemon,
-  } = useQuery({
-    queryKey: ["pokemon", searchText, data?.pages.length],
-    queryFn: () =>
-      getPokemonService({ name: searchText, pages: data?.pages.length }),
-    enabled: isInSearchMode,
-  });
-
-  useEffect(() => {
-    if (!entry?.isIntersecting || isInSearchMode) {
-      return;
-    }
-
-    if (entry?.isIntersecting) {
-      fetchNextPage();
-    }
-  }, [entry, fetchNextPage, isInSearchMode]);
+  } = useSearchPokemon({ searchText, pages: data?.pages.length });
 
   return (
     <>
