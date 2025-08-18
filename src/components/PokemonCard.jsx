@@ -1,11 +1,11 @@
 import { useContext } from "react";
+import { Plus, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Trash2 } from "lucide-react";
+import { POKEMON_TYPES_COLORS } from "@/constants/pokemon";
 import { CartContext } from "@/contexts";
 import { formatPrice } from "@/utils/helpers";
-import { POKEMON_TYPES_COLORS } from "@/constants/pokemon";
 
 export const PokemonCard = ({ pokemon }) => {
   const { addToCart, removeFromCart } = useContext(CartContext);

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { RANGE_PRICES } from "@/constants/balance";
 import { BalanceContext } from "@/contexts";
-import { loadFromStorage, saveToStorage } from "@/utils/storage";
 import { getRandomPrice } from "@/utils/helpers";
+import { loadFromStorage, saveToStorage } from "@/utils/storage";
 
 const BALANCE_KEY = "balance";
 
@@ -9,11 +10,8 @@ export const BalanceProvider = ({ children }) => {
   const [balance, setBalance] = useState(() => {
     const balanceStorage = loadFromStorage(BALANCE_KEY);
     if (!balanceStorage) {
-      const MAX_PRICE = 1000;
-      const MIN_PRICE = 10000;
-
       return {
-        funds: Math.floor(getRandomPrice(MIN_PRICE, MAX_PRICE)),
+        funds: Math.floor(getRandomPrice(RANGE_PRICES.MIN, RANGE_PRICES.MAX)),
         currency: "MXN",
       };
     }
@@ -25,8 +23,15 @@ export const BalanceProvider = ({ children }) => {
     saveToStorage(BALANCE_KEY, balance);
   }, [balance]);
 
+  const addFunds = (funds) => {
+    setBalance((prevBalance) => ({
+      ...prevBalance,
+      funds: prevBalance.funds + funds,
+    }));
+  };
+
   return (
-    <BalanceContext.Provider value={[balance, setBalance]}>
+    <BalanceContext.Provider value={{ balance, addFunds }}>
       {children}
     </BalanceContext.Provider>
   );

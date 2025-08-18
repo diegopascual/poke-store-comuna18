@@ -5,7 +5,7 @@ import { BalanceContext, CartContext } from "@/contexts";
 import { formatPrice } from "@/utils/helpers";
 
 export const NavBar = () => {
-  const [balance] = useContext(BalanceContext);
+  const { balance } = useContext(BalanceContext);
   const { cartIds } = useContext(CartContext);
 
   return (
