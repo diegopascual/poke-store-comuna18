@@ -30,8 +30,15 @@ export const BalanceProvider = ({ children }) => {
     }));
   };
 
+  const checkoutBalance = (totalCheckout) => {
+    setBalance((prevBalance) => ({
+      ...prevBalance,
+      funds: prevBalance.funds - totalCheckout,
+    }));
+  };
+
   return (
-    <BalanceContext.Provider value={{ balance, addFunds }}>
+    <BalanceContext.Provider value={{ balance, addFunds, checkoutBalance }}>
       {children}
     </BalanceContext.Provider>
   );

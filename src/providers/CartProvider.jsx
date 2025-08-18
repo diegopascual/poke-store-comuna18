@@ -16,6 +16,8 @@ export const CartProvider = ({ children }) => {
     saveToStorage(CART_KEY, cart);
   }, [cart]);
 
+  const cartIds = cart.map((pokemon) => pokemon.id);
+
   const addToCart = (pokemon) => {
     setCart((prevCart) => [...prevCart, pokemon]);
   };
@@ -26,15 +28,14 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  const cartIds = cart.map((pokemon) => pokemon.id);
-
   return (
     <CartContext.Provider
       value={{
         cart,
+        cartIds,
+        setCart,
         addToCart,
         removeFromCart,
-        cartIds,
       }}
     >
       {children}

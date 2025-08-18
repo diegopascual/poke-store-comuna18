@@ -1,12 +1,13 @@
 import { useContext } from "react";
-import { CartContext } from "@/contexts";
+import { CartContext, PurchasesContext } from "@/contexts";
 import { PokemonCard } from ".";
 
 export const PokemonList = ({ pokemonList = [] }) => {
   const { cartIds } = useContext(CartContext);
+  const { purchasesIds } = useContext(PurchasesContext);
 
   if (pokemonList.length === 0) {
-    return <p>No Pokemon available</p>;
+    return <p className="text-center">No pokemon available</p>;
   }
 
   const pokemonListWithCartStatus = pokemonList.map((pokemon) => ({
@@ -14,7 +15,14 @@ export const PokemonList = ({ pokemonList = [] }) => {
     isInCart: cartIds.includes(pokemon.id),
   }));
 
-  return pokemonListWithCartStatus.map((pokemon) => (
+  const pokemonListWithPurchasesStatus = pokemonListWithCartStatus.map(
+    (pokemon) => ({
+      ...pokemon,
+      isPurchased: purchasesIds.includes(pokemon.id),
+    }),
+  );
+
+  return pokemonListWithPurchasesStatus.map((pokemon) => (
     <PokemonCard key={pokemon.id} pokemon={pokemon} />
   ));
 };

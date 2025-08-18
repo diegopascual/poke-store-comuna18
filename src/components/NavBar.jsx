@@ -17,12 +17,12 @@ export const NavBar = () => {
               <Link to="/">Home</Link>
             </li>
             <li className="rounded px-2 py-1 hover:bg-secondary hover:text-primary">
-              <Link to="/purchased">Purchased</Link>
+              <Link to="/purchases">Purchases</Link>
             </li>
           </div>
           <div className="group flex flex-col gap-1">
             <li className="relative rounded px-2 py-1 group-hover:bg-secondary group-hover:text-primary">
-              <Link to="/cart">
+              <Link to="/checkout">
                 <ShoppingCart className="w-7 text-inherit" />
                 <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-secondary p-1 text-primary group-hover:bg-primary group-hover:text-secondary">
                   {cartIds.length}

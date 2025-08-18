@@ -13,4 +13,9 @@ export const pokeApiInstance = axiosInstance.create({
   baseURL: POKEAPI_BASE_URL,
 });
 
+const FRANKFURTER_BASE_URL = "https://api.frankfurter.dev/v1";
+export const frankfurterApiInstance = axiosInstance.create({
+  baseURL: FRANKFURTER_BASE_URL,
+});
+
 export default axiosInstance;
